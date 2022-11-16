@@ -1,0 +1,65 @@
+<!DOCTYPE html><html lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
+<head><title>Title</title><link rel="shortcut icon" href="/favicon.ico">
+    <style>%s</style>
+    <!--<link rel="stylesheet" type="text/css" href="/style.css"/>-->
+    <meta http-equiv="Content-Type" content="text/html; charset=$l:enc"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+    <script language="javascript" type="text/javascript">
+		<!--
+		var unit = ['KiB','MiB','GiB','TiB'];
+		function readableSize(bytes) {
+          if (Math.abs(bytes) < 1024)
+            return bytes + 'B';
+          var i = -1;
+          do {
+            bytes /= 1024;
+            i++;
+          } while (i<unit.length-1 && (Math.round(Math.abs(bytes)*10)/10) >= 1024);
+          return bytes.toFixed(1) + '' + unit[i];
+        }
+
+        function $(id){return document.getElementById(id)}
+        function startUpload() {
+			var element = $('fil');
+			var f = element.files[0];
+			if (f != null) {
+			    var p = $('progress');
+                var xhr = new XMLHttpRequest();
+                xhr.upload.addEventListener("progress", function (e) {
+                    if (e.lengthComputable)
+                        p.innerHTML = readableSize(e.loaded) + "/" + readableSize(e.total);
+                });
+                xhr.upload.addEventListener("load", function () {
+                    p.innerHTML='';
+                });
+                xhr.addEventListener('readystatechange', function(e) {
+                  if(this.readyState === 4 && this.status === 200) {
+                    element.value='';
+                    window.location.reload();
+                  }
+                });
+                xhr.open('PUT', f.name);
+                xhr.overrideMimeType(f.type);
+                xhr.setRequestHeader("Content-Type", f.type);
+                xhr.send(f);
+            }
+		}
+        //-->
+    </script>
+</head>
+<body>
+<h3 class="directory">%s</h3>
+<h2 class="deviceName">%s</h2><br/>
+<div id="content" style="font-size:11px">
+    <div><input id="fil" name="fil" type="file" size="30" style="width:%s;margin-bottom:15px"/></div>
+    <div><input type="button" class="sbtn" value="$l:upload" onclick="javascript:startUpload();"/></div>
+    <div><span id="progress"></span></div>
+</div>
+<!-- Share -->
+<div style="display:%s"><a target="_blank" href="%s">$l:download</a></div>
+<br/>
+<ul>%s</ul>
+<br/>
+</body></html>
+
